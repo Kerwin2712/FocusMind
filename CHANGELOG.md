@@ -40,6 +40,13 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Modificado `main.py` para registrar las pantallas en el `ScreenManager`.
   - Rediseñado completamente `ui/main.kv` agregando estilos detallados, el widget de barra de navegación reutilizable `NavBar` y botones de transición del flujo.
   - Corregido bug `AttributeError: 'NoneType' object has no attribute 'current'` al inicializar `app.root` en `ui/main.kv`, añadiendo validaciones condicionales robustas (`app.root and ...`).
+- **Fase 3 - Lógica de Hábitos y Entorno Reactivo:**
+  - Creado el archivo `database/services.py` conteniendo la lógica de negocio desacoplada de la base de datos (carga de hábitos, actualización de estados, cálculo de dopamina/progreso y sincronización del estado del entorno).
+  - Modificado `ui/habits_screen.py` para mapear de forma reactiva los checkboxes de hábitos a la base de datos SQLite usando Kivy `BooleanProperty` y funciones callback.
+  - Modificado `ui/dashboard_screen.py` para consultar dinámicamente los hábitos completados y calcular el progreso diario (0%, 33%, 66%, 100%) y los puntos de dopamina (DP).
+  - Actualizado `ui/main.kv` vinculando dinámicamente los labels, checkboxes, el estado descriptivo de la habitación virtual y el ancho de la barra de progreso a propiedades de Python.
+  - Actualizado el `README.md` detallando el nuevo flujo de datos desacoplado de la aplicación.
+
 
 
 

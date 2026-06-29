@@ -175,7 +175,7 @@
                     size_hint_y: None
                     height: '15dp'
                 Label:
-                    text: "150 DP"
+                    text: root.dopamina_text
                     font_size: '20sp'
                     bold: True
                     color: 0.55, 0.36, 0.96, 1
@@ -226,7 +226,7 @@
                         radius: [16]
                 
                 Label:
-                    text: "[ Espacio de Render del Entorno ]\n\nEl estado de la habitación refleja tus hábitos de hoy:\n- Cama: Cama ordenada (Cumplido)\n- Estantería: Libros desordenados (Pendiente)\n- Ropa: Silla con ropa (Pendiente)"
+                    text: root.habitacion_status_text
                     halign: 'center'
                     valign: 'middle'
                     font_size: '14sp'
@@ -241,7 +241,7 @@
                 spacing: 5
                 
                 Label:
-                    text: "Progreso diario: 33%"
+                    text: root.progreso_text
                     font_size: '12sp'
                     color: 0.8, 0.8, 0.9, 1
                     halign: 'left'
@@ -261,7 +261,7 @@
                             rgba: 0.06, 0.72, 0.51, 1 # Verde éxito #10B981
                         RoundedRectangle:
                             pos: self.pos
-                            size: (self.size[0] * 0.33, self.size[1])
+                            size: (self.size[0] * root.progreso_value, self.size[1])
                             radius: [5]
 
         # Barra de navegación
@@ -335,7 +335,8 @@
                             width: 1
                     
                     CheckBox:
-                        active: True
+                        active: root.habito_cama_active
+                        on_active: root.on_habito_change("Tender la cama", self.active)
                         size_hint_x: None
                         width: '40dp'
                         color: 0.55, 0.36, 0.96, 1 # Morado para checks
@@ -370,7 +371,8 @@
                             width: 1
                     
                     CheckBox:
-                        active: False
+                        active: root.habito_libro_active
+                        on_active: root.on_habito_change("Leer páginas de un libro", self.active)
                         size_hint_x: None
                         width: '40dp'
                         color: 0.55, 0.36, 0.96, 1
@@ -405,7 +407,8 @@
                             width: 1
                     
                     CheckBox:
-                        active: False
+                        active: root.habito_ropa_active
+                        on_active: root.on_habito_change("Ordenar la ropa", self.active)
                         size_hint_x: None
                         width: '40dp'
                         color: 0.55, 0.36, 0.96, 1

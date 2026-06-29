@@ -88,6 +88,19 @@ python main.py
 
 ---
 
+## 🔄 Flujo de Datos y Persistencia (Fase 3)
+La aplicación implementa un patrón completamente desacoplado (MVVM/MVC adaptativo) para el manejo de estados entre la interfaz gráfica (Kivy) y la base de datos:
+
+1.  **Capa de Presentación (UI):** Las pantallas `DashboardScreen` y `HabitsScreen` se enlazan de forma reactiva mediante `Properties` de Kivy (`StringProperty`, `NumericProperty`, `BooleanProperty`).
+2.  **Capa de Servicios (`database/services.py`):** Encapsula todas las operaciones de base de datos. La UI nunca ejecuta consultas directas ni importa sesiones de SQLAlchemy.
+3.  **Persistencia y Entorno Reactivo:**
+    *   Al marcar un checkbox de hábito, se actualiza `estado_actual` y `racha_actual` en la tabla `Habitos` de SQLite/Postgres.
+    *   La actualización recalcula automáticamente el JSON de estados en `Estado_Entorno` (sincronizando los objetos de la habitación virtual: cama, libros, ropa).
+    *   Al regresar al Dashboard, el cambio de pantalla (`on_enter`) gatilla la lectura de dopamina (DP) y progreso, renderizando condicionalmente el estado actual de los objetos (ej: "Cama: Ordenada" o "Cama: Destendida") y actualizando la barra de progreso.
+
+---
+
+
 ## 🔒 Directrices de Seguridad para Google Play Store
 FocusMind incorpora medidas críticas para cumplir con las políticas de distribución de Google Play:
 1.  **Prevención de SQLi:** SQLAlchemy gestiona las consultas de forma parametrizada nativamente, neutralizando vectores de inyección SQL.

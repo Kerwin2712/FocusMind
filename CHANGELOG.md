@@ -63,6 +63,10 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Corregido error `TypeError: 'NoneType' object is not iterable` al inicializar las propiedades dinámicas de Kivy durante la carga del Canvas en `ui/main.kv`, añadiendo validaciones condicionales a nivel de lista en la expresión KV y registrando los widgets en la `Factory` antes de cargar el archivo `.kv`.
   - Removido el archivo SQLite `focusmind.db` del control de versiones de Git (`git rm --cached`), garantizando que se respete la regla de `.gitignore` para no subir datos locales al repositorio remoto.
   - Rediseñado completamente `WelcomeScreen` en `ui/main.kv` incorporando efectos Glow difusos morado/verde en canvas, un logo animado/geométrico orbital simulando dopamina y textos explicativos de neuroproductividad.
+  - Corregido bug de superposición de palabras en `WelcomeScreen` obligando a los Labels a calcular explícitamente su altura real mediante `size_hint_y: None` y `height: self.texture_size[1]`.
+  - Corregido bug de desincronización en `HabitsScreen` donde el checkbox de la interfaz no se refrescaba automáticamente al marcarlo/desmarcarlo, actualizando la propiedad local de Kivy (`self.habito_*_active`) en el callback `on_habito_change`.
+  - Implementado sistema de transiciones deslizantes direccionales inteligentes (`left` / `right`) mediante el método centralizado `change_screen` en `main.py` evaluando la posición relativa del NavBar de la app.
+
 
 
 

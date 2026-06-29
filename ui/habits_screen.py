@@ -43,7 +43,16 @@ class HabitsScreen(Screen):
         print(f"[UI] Hábito '{nombre_habito}' cambiado a active={active}")
         # Actualizar en base de datos local
         success = update_habit_status(user_id=1, nombre_habito=nombre_habito, completado=active)
-        if not success:
+        if success:
+            # Actualizar la propiedad Kivy local para forzar el refresco reactivo de la UI
+            if nombre_habito == "Tender la cama":
+                self.habito_cama_active = active
+            elif nombre_habito == "Leer páginas de un libro":
+                self.habito_libro_active = active
+            elif nombre_habito == "Ordenar la ropa":
+                self.habito_ropa_active = active
+        else:
             print(f"[UI ERROR] No se pudo guardar el estado de '{nombre_habito}' en la base de datos.")
             # Revertir cambio en caso de error
             self.load_habits_data()
+

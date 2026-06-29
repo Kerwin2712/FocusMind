@@ -167,7 +167,7 @@
         font_size: '13sp'
         bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'dashboard') else [0.11, 0.11, 0.18, 0]
         color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'dashboard') else [0.7, 0.7, 0.8, 1]
-        on_release: app.root.current = 'dashboard'
+        on_release: app.change_screen('dashboard')
         radius: [8]
 
     FMButton:
@@ -175,7 +175,7 @@
         font_size: '13sp'
         bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'habits') else [0.11, 0.11, 0.18, 0]
         color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'habits') else [0.7, 0.7, 0.8, 1]
-        on_release: app.root.current = 'habits'
+        on_release: app.change_screen('habits')
         radius: [8]
 
     FMButton:
@@ -183,8 +183,9 @@
         font_size: '13sp'
         bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'focus') else [0.11, 0.11, 0.18, 0]
         color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'focus') else [0.7, 0.7, 0.8, 1]
-        on_release: app.root.current = 'focus'
+        on_release: app.change_screen('focus')
         radius: [8]
+
 
 
 # ----------------------------------------------------
@@ -263,22 +264,29 @@
                 font_size: '42sp'
                 bold: True
                 color: 0.95, 0.96, 0.96, 1
+                size_hint_y: None
+                height: self.texture_size[1]
                 halign: 'center'
+                valign: 'middle'
 
             Label:
                 text: "NEUROPRODUCTIVIDAD GAMIFICADA"
                 font_size: '11sp'
                 bold: True
                 color: 0.55, 0.36, 0.96, 1
+                size_hint_y: None
+                height: self.texture_size[1]
                 halign: 'center'
+                valign: 'middle'
 
             Label:
                 text: "Completa tus hábitos diarios y observa cómo se ordena\ny evoluciona tu entorno virtual."
                 font_size: '14sp'
                 color: 0.7, 0.7, 0.8, 1
-                halign: 'center'
                 size_hint_y: None
-                height: '40dp'
+                height: self.texture_size[1]
+                halign: 'center'
+                valign: 'middle'
 
         Widget:
             size_hint_y: 0.15
@@ -288,7 +296,8 @@
             size_hint: (None, None)
             size: (260, 52)
             pos_hint: {'center_x': 0.5}
-            on_release: root.manager.current = 'dashboard'
+            on_release: app.change_screen('dashboard')
+
 
         Label:
             text: "Modo Local Premium Activo"
@@ -353,8 +362,9 @@
                 height: '42dp'
                 pos_hint: {'center_y': 0.5}
                 font_size: '13sp'
-                on_release: root.manager.current = 'welcome'
+                on_release: app.change_screen('welcome')
                 radius: [8]
+
 
         # Contenedor del Entorno Virtual (Habitación)
         BoxLayout:

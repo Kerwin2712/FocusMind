@@ -27,6 +27,30 @@ class FocusMindApp(App):
         sm.add_widget(FocusScreen(name='focus'))
         return sm
 
+    def change_screen(self, screen_name):
+        """Cambia de pantalla gestionando de forma inteligente la dirección del deslizamiento."""
+        if not self.root:
+            return
+            
+        screen_order = {
+            'welcome': -1,
+            'dashboard': 0,
+            'habits': 1,
+            'focus': 2
+        }
+        
+        current_name = self.root.current
+        current_idx = screen_order.get(current_name, 0)
+        target_idx = screen_order.get(screen_name, 0)
+        
+        if target_idx > current_idx:
+            self.root.transition.direction = 'left'
+        else:
+            self.root.transition.direction = 'right'
+            
+        self.root.current = screen_name
+
+
 
 
 from database.connection import init_db

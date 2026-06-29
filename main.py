@@ -7,19 +7,22 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'ui', 'main.kv'))
 
 
-class WelcomeScreen(Screen):
-    """Pantalla de bienvenida inicial para FocusMind."""
-    pass
+# Importar pantallas del módulo ui
+from ui import WelcomeScreen, DashboardScreen, HabitsScreen, FocusScreen
 
 
 class FocusMindApp(App):
     """Aplicación principal de FocusMind."""
     
     def build(self):
-        # El ScreenManager gestiona la navegación entre las pantallas de la app
+        # El ScreenManager de Kivy maneja las transiciones del flujo
         sm = ScreenManager()
         sm.add_widget(WelcomeScreen(name='welcome'))
+        sm.add_widget(DashboardScreen(name='dashboard'))
+        sm.add_widget(HabitsScreen(name='habits'))
+        sm.add_widget(FocusScreen(name='focus'))
         return sm
+
 
 
 from database.connection import init_db

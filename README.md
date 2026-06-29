@@ -38,7 +38,13 @@ FocusMind/
 │   ├── connection.py     # Manejo de conexión híbrida SQLite / PostgreSQL
 │   └── models.py         # Declaración de modelos SQLAlchemy (Usuarios, Habitos, etc.)
 ├── ui/                   # Interfaz de usuario (Layouts de Kivy)
-│   └── main.kv           # Definición de pantallas y estilos en lenguaje KV
+│   ├── __init__.py       # Inicialización y exportación de pantallas
+│   ├── dashboard_screen.py # Pantalla del entorno virtual interactivo
+│   ├── focus_screen.py   # Pantalla del temporizador de enfoque
+│   ├── habits_screen.py  # Pantalla del listado de hábitos (hoja de papel)
+│   ├── main.kv           # Estilos KV y navegación compartida (NavBar)
+│   └── welcome_screen.py # Pantalla de bienvenida y control de acceso
+
 ├── CHANGELOG.md          # Bitácora de cambios detallada y cronológica
 ├── main.py               # Punto de entrada de la aplicación
 └── requirements.txt      # Dependencias del sistema

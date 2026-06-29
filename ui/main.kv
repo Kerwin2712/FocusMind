@@ -1,73 +1,558 @@
-# Diseño base para FocusMind
-# Define la transición y las pantallas disponibles en la aplicación
+# Diseño principal y navegación de FocusMind
+# Define la interfaz base y los layouts de cada pantalla utilizando la paleta premium
 
-<WelcomeScreen>:
-    name: 'welcome'
-    
-    # Lienzo para el fondo oscuro principal
+# ----------------------------------------------------
+# WIDGET REUTILIZABLE: BARRA DE NAVEGACIÓN INFERIOR
+# ----------------------------------------------------
+<NavBar@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: '60dp'
+    padding: [10, 5, 10, 5]
+    spacing: 15
     canvas.before:
         Color:
-            rgba: 0.07, 0.07, 0.08, 1 # #121214 Gris oscuro profundo
+            rgba: 0.11, 0.11, 0.18, 1 # #1D1D2F Gris Azulado Oscuro
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        Color:
+            rgba: 0.2, 0.2, 0.3, 0.5 # Línea divisoria superior
+        Line:
+            points: [self.x, self.y + self.height, self.x + self.width, self.y + self.height]
+            width: 1
+
+    Button:
+        text: "Entorno"
+        background_color: 0, 0, 0, 0
+        color: 0.95, 0.96, 0.96, 1
+        font_size: '14sp'
+        bold: True
+        on_release: app.root.current = 'dashboard'
+        canvas.before:
+            Color:
+                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'dashboard' else (0, 0, 0, 0)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [8]
+
+    Button:
+        text: "Hábitos"
+        background_color: 0, 0, 0, 0
+        color: 0.95, 0.96, 0.96, 1
+        font_size: '14sp'
+        bold: True
+        on_release: app.root.current = 'habits'
+        canvas.before:
+            Color:
+                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'habits' else (0, 0, 0, 0)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [8]
+
+    Button:
+        text: "Enfoque"
+        background_color: 0, 0, 0, 0
+        color: 0.95, 0.96, 0.96, 1
+        font_size: '14sp'
+        bold: True
+        on_release: app.root.current = 'focus'
+        canvas.before:
+            Color:
+                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'focus' else (0, 0, 0, 0)
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [8]
+
+
+# ----------------------------------------------------
+# 1. PANTALLA DE BIENVENIDA (WelcomeScreen)
+# ----------------------------------------------------
+<WelcomeScreen>:
+    name: 'welcome'
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.08, 1 # #121214 Fondo oscuro principal
         Rectangle:
             pos: self.pos
             size: self.size
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [20, 50, 20, 50]
-        spacing: 20
+        padding: [30, 60, 30, 60]
+        spacing: 25
 
-        # Espaciador superior para centrar el contenido
         Widget:
             size_hint_y: 0.2
 
         BoxLayout:
             orientation: 'vertical'
-            spacing: 10
+            spacing: 12
             size_hint_y: None
             height: self.minimum_height
 
             Label:
                 text: "FocusMind"
-                font_size: '32sp'
+                font_size: '36sp'
                 bold: True
-                color: 0.95, 0.96, 0.96, 1 # #F3F4F6 Texto principal
-                size_hint_y: None
-                height: self.texture_size[1]
+                color: 0.95, 0.96, 0.96, 1 # #F3F4F6
                 halign: 'center'
                 valign: 'middle'
 
             Label:
                 text: "Neuroproductividad y Hábitos Gamificados"
-                font_size: '16sp'
-                color: 0.55, 0.36, 0.96, 1 # #8B5CF6 Acento Morado
-                size_hint_y: None
-                height: self.texture_size[1]
+                font_size: '15sp'
+                color: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado Acento
                 halign: 'center'
                 valign: 'middle'
 
-        # Espaciador central
         Widget:
             size_hint_y: 0.3
 
         Button:
-            text: "Iniciar Sesión"
+            text: "Ingresar al Sistema"
             size_hint: (None, None)
-            size: (240, 50)
+            size: (260, 52)
             pos_hint: {'center_x': 0.5}
-            background_color: 0, 0, 0, 0 # Transparente para usar el canvas
+            background_color: 0, 0, 0, 0
             color: 1, 1, 1, 1
             font_size: '16sp'
             bold: True
-            
+            on_release: root.manager.current = 'dashboard'
             canvas.before:
                 Color:
-                    rgba: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado vibrante
+                    rgba: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado
                 RoundedRectangle:
                     pos: self.pos
                     size: self.size
-                    radius: [12]
+                    radius: [14]
 
-        # Espaciador inferior
         Widget:
             size_hint_y: 0.1
+
+
+# ----------------------------------------------------
+# 2. PANTALLA PRINCIPAL / ENTORNO (DashboardScreen)
+# ----------------------------------------------------
+<DashboardScreen>:
+    name: 'dashboard'
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.08, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        # Cabecera / Dashboard de Métricas
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '70dp'
+            padding: [20, 10, 20, 10]
+            spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0.11, 0.11, 0.18, 1 # #1D1D2F
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.6
+                Label:
+                    text: "Nivel de Dopamina"
+                    font_size: '12sp'
+                    color: 0.6, 0.6, 0.7, 1
+                    halign: 'left'
+                    size_hint_y: None
+                    height: '15dp'
+                Label:
+                    text: "150 DP"
+                    font_size: '20sp'
+                    bold: True
+                    color: 0.55, 0.36, 0.96, 1
+                    halign: 'left'
+
+            # Botón para cerrar sesión/volver al inicio
+            Button:
+                text: "Salir"
+                size_hint_x: 0.4
+                size_hint_y: None
+                height: '40dp'
+                background_color: 0, 0, 0, 0
+                color: 0.94, 0.27, 0.27, 1 # #EF4444 Rojo
+                bold: True
+                on_release: root.manager.current = 'welcome'
+                canvas.before:
+                    Color:
+                        rgba: 0.94, 0.27, 0.27, 0.1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [8]
+
+        # Contenedor del Entorno Virtual (Habitación)
+        BoxLayout:
+            orientation: 'vertical'
+            padding: [20, 20, 20, 20]
+            spacing: 15
+
+            Label:
+                text: "Tu Habitación Virtual"
+                font_size: '18sp'
+                bold: True
+                color: 0.95, 0.96, 0.96, 1
+                size_hint_y: None
+                height: '30dp'
+
+            # Contenedor que emula el render de la habitación
+            BoxLayout:
+                orientation: 'vertical'
+                padding: [15, 15, 15, 15]
+                canvas.before:
+                    Color:
+                        rgba: 0.11, 0.11, 0.18, 1 # Tarjeta
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [16]
+                
+                Label:
+                    text: "[ Espacio de Render del Entorno ]\n\nEl estado de la habitación refleja tus hábitos de hoy:\n- Cama: Cama ordenada (Cumplido)\n- Estantería: Libros desordenados (Pendiente)\n- Ropa: Silla con ropa (Pendiente)"
+                    halign: 'center'
+                    valign: 'middle'
+                    font_size: '14sp'
+                    color: 0.8, 0.8, 0.9, 1
+                    size_hint_y: 1
+
+            # Barra de progreso de Dopamina diaria
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: '60dp'
+                spacing: 5
+                
+                Label:
+                    text: "Progreso diario: 33%"
+                    font_size: '12sp'
+                    color: 0.8, 0.8, 0.9, 1
+                    halign: 'left'
+                
+                # Barra personalizada
+                Widget:
+                    size_hint_y: None
+                    height: '10dp'
+                    canvas.before:
+                        Color:
+                            rgba: 0.2, 0.2, 0.3, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [5]
+                        Color:
+                            rgba: 0.06, 0.72, 0.51, 1 # Verde éxito #10B981
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: (self.size[0] * 0.33, self.size[1])
+                            radius: [5]
+
+        # Barra de navegación
+        NavBar:
+
+
+# ----------------------------------------------------
+# 3. MÓDULO DE HÁBITOS (HabitsScreen)
+# ----------------------------------------------------
+<HabitsScreen>:
+    name: 'habits'
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.08, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        # Cabecera
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '70dp'
+            padding: [20, 15, 20, 10]
+            canvas.before:
+                Color:
+                    rgba: 0.11, 0.11, 0.18, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "Mis Hábitos Diarios"
+                font_size: '20sp'
+                bold: True
+                color: 0.95, 0.96, 0.96, 1
+                halign: 'left'
+
+        # Lista estilo "hoja de papel" (estilizada sobre fondo premium)
+        BoxLayout:
+            orientation: 'vertical'
+            padding: [20, 20, 20, 20]
+            spacing: 15
+
+            # Contenedor estilo "hoja de papel" (color crema suave para contraste)
+            BoxLayout:
+                orientation: 'vertical'
+                padding: [20, 25, 20, 25]
+                spacing: 20
+                canvas.before:
+                    Color:
+                        rgba: 0.98, 0.98, 0.95, 1 # Crema tipo papel
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [14]
+
+                # Ítem Hábito 1
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '50dp'
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 0.9, 0.9, 0.85, 1 # Línea divisoria en papel
+                        Line:
+                            points: [self.x, self.y, self.x + self.width, self.y]
+                            width: 1
+                    
+                    CheckBox:
+                        active: True
+                        size_hint_x: None
+                        width: '40dp'
+                        color: 0.55, 0.36, 0.96, 1 # Morado para checks
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: "Tender la cama"
+                            font_size: '16sp'
+                            bold: True
+                            color: 0.1, 0.1, 0.15, 1
+                            halign: 'left'
+                            text_size: self.size
+                        Label:
+                            text: "Hábito matutino predefinido"
+                            font_size: '12sp'
+                            color: 0.4, 0.4, 0.5, 1
+                            halign: 'left'
+                            text_size: self.size
+
+                # Ítem Hábito 2
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '50dp'
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 0.9, 0.9, 0.85, 1
+                        Line:
+                            points: [self.x, self.y, self.x + self.width, self.y]
+                            width: 1
+                    
+                    CheckBox:
+                        active: False
+                        size_hint_x: None
+                        width: '40dp'
+                        color: 0.55, 0.36, 0.96, 1
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: "Leer páginas de un libro"
+                            font_size: '16sp'
+                            bold: True
+                            color: 0.1, 0.1, 0.15, 1
+                            halign: 'left'
+                            text_size: self.size
+                        Label:
+                            text: "Mínimo 10 páginas diarias"
+                            font_size: '12sp'
+                            color: 0.4, 0.4, 0.5, 1
+                            halign: 'left'
+                            text_size: self.size
+
+                # Ítem Hábito 3
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '50dp'
+                    spacing: 15
+                    canvas.before:
+                        Color:
+                            rgba: 0.9, 0.9, 0.85, 1
+                        Line:
+                            points: [self.x, self.y, self.x + self.width, self.y]
+                            width: 1
+                    
+                    CheckBox:
+                        active: False
+                        size_hint_x: None
+                        width: '40dp'
+                        color: 0.55, 0.36, 0.96, 1
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        Label:
+                            text: "Ordenar la ropa"
+                            font_size: '16sp'
+                            bold: True
+                            color: 0.1, 0.1, 0.15, 1
+                            halign: 'left'
+                            text_size: self.size
+                        Label:
+                            text: "Mantener el cuarto limpio"
+                            font_size: '12sp'
+                            color: 0.4, 0.4, 0.5, 1
+                            halign: 'left'
+                            text_size: self.size
+
+                # Espaciador para empujar el contenido hacia arriba
+                Widget:
+
+        # Barra de navegación
+        NavBar:
+
+
+# ----------------------------------------------------
+# 4. BLOQUE DE ENFOQUE (FocusScreen)
+# ----------------------------------------------------
+<FocusScreen>:
+    name: 'focus'
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.08, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        # Cabecera
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '70dp'
+            padding: [20, 15, 20, 10]
+            canvas.before:
+                Color:
+                    rgba: 0.11, 0.11, 0.18, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: "Bloque de Enfoque"
+                font_size: '20sp'
+                bold: True
+                color: 0.95, 0.96, 0.96, 1
+                halign: 'left'
+
+        # Sección del Temporizador
+        BoxLayout:
+            orientation: 'vertical'
+            padding: [20, 30, 20, 30]
+            spacing: 30
+
+            # Tarjeta del Reloj Temporizador
+            BoxLayout:
+                orientation: 'vertical'
+                padding: [20, 30, 20, 30]
+                spacing: 15
+                canvas.before:
+                    Color:
+                        rgba: 0.11, 0.11, 0.18, 1
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [16]
+
+                Label:
+                    text: "TIEMPO RESTANTE"
+                    font_size: '13sp'
+                    bold: True
+                    color: 0.6, 0.6, 0.7, 1
+                    halign: 'center'
+                
+                Label:
+                    text: "25:00"
+                    font_size: '64sp'
+                    bold: True
+                    color: 0.95, 0.96, 0.96, 1
+                    halign: 'center'
+
+                Label:
+                    text: "Mantén la concentración en tu tarea actual."
+                    font_size: '14sp'
+                    color: 0.55, 0.36, 0.96, 1
+                    halign: 'center'
+
+            # Controles de Temporización
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: '50dp'
+                spacing: 15
+
+                Button:
+                    text: "Iniciar"
+                    background_color: 0, 0, 0, 0
+                    color: 1, 1, 1, 1
+                    bold: True
+                    canvas.before:
+                        Color:
+                            rgba: 0.06, 0.72, 0.51, 1 # Verde
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [10]
+
+                Button:
+                    text: "Pausar"
+                    background_color: 0, 0, 0, 0
+                    color: 1, 1, 1, 1
+                    bold: True
+                    canvas.before:
+                        Color:
+                            rgba: 0.55, 0.36, 0.96, 1 # Morado
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [10]
+
+                Button:
+                    text: "Detener"
+                    background_color: 0, 0, 0, 0
+                    color: 1, 1, 1, 1
+                    bold: True
+                    canvas.before:
+                        Color:
+                            rgba: 0.94, 0.27, 0.27, 1 # Rojo
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [10]
+
+            # Espaciador
+            Widget:
+
+        # Barra de navegación
+        NavBar:

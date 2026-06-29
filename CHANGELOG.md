@@ -30,4 +30,14 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Archivo `database/connection.py` que implementa la conexión dinámica a PostgreSQL (vía `DATABASE_URL` en `.env`) o fallback robusto a SQLite local (`focusmind.db`), junto con la carga manual del archivo `.env` para evitar dependencias innecesarias.
   - Nueva regla de documentación agregada a `.agent/workflow.md` para garantizar la actualización del `README.md`.
   - Rediseño profesional del `README.md` de la raíz detallando arquitectura, stack, ejecución y seguridad.
+- **Fase 2 - UI Básica de Kivy y Navegación:**
+  - Creados archivos individuales de pantalla en la carpeta `ui/`:
+    - `welcome_screen.py`: Pantalla de bienvenida.
+    - `dashboard_screen.py`: Pantalla principal del entorno virtual (Habitación).
+    - `habits_screen.py`: Pantalla de hábitos (diseño tipo hoja de papel con checkboxes).
+    - `focus_screen.py`: Pantalla del temporizador de enfoque (reloj y botones de control).
+  - Actualizado `ui/__init__.py` para exportar las 4 pantallas del módulo.
+  - Modificado `main.py` para registrar las pantallas en el `ScreenManager`.
+  - Rediseñado completamente `ui/main.kv` agregando estilos detallados, el widget de barra de navegación reutilizable `NavBar` y botones de transición del flujo.
+
 

@@ -23,5 +23,11 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
     - `/assets/fonts/` para tipografías premium.
     - `/database/` para los modelos de datos SQLAlchemy y lógica de conexión.
     - `/ui/` para archivos `.kv` e interfaz gráfica.
-  - Archivo principal `main.py` con una app básica de Kivy cargando el layout principal desde `ui/main.kv`.
+  - Archivo principal `main.py` con una app básica de Kivy cargando el layout principal desde `ui/main.kv` e inicializando la base de datos de manera segura al arrancar.
   - Archivo `ui/main.kv` definiendo la pantalla de bienvenida (`WelcomeScreen`) con la paleta de colores premium de FocusMind.
+- **Fase 1 - Modelos de Datos y Conexión Híbrida:**
+  - Archivo `database/models.py` conteniendo los modelos ORM de SQLAlchemy (`Usuario`, `Habito`, `HistorialDopamina`, `EstadoEntorno`) alineados con la especificación `Backend.md`.
+  - Archivo `database/connection.py` que implementa la conexión dinámica a PostgreSQL (vía `DATABASE_URL` en `.env`) o fallback robusto a SQLite local (`focusmind.db`), junto con la carga manual del archivo `.env` para evitar dependencias innecesarias.
+  - Nueva regla de documentación agregada a `.agent/workflow.md` para garantizar la actualización del `README.md`.
+  - Rediseño profesional del `README.md` de la raíz detallando arquitectura, stack, ejecución y seguridad.
+

@@ -22,5 +22,13 @@ class FocusMindApp(App):
         return sm
 
 
+from database.connection import init_db
+
 if __name__ == '__main__':
+    # Inicializar la base de datos al arrancar la aplicación
+    db_ok = init_db()
+    if not db_ok:
+        print("[Warning] La aplicación iniciará sin persistencia de datos funcional debido a un error crítico.")
+    
     FocusMindApp().run()
+

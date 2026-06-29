@@ -5,6 +5,8 @@ Antes de proceder con cualquier modificación de código, análisis o propuesta,
 ## 1. Gestión de Contexto y Documentación
 - Revisa exhaustivamente la documentación del proyecto antes de proponer cambios en archivos `.py` o `.kv`.
 - Es obligatorio mantener una bitácora de cambios actualizada. Cada modificación en el código debe quedar registrada de forma ordenada, cronológica y detallada en el archivo correspondiente.
+- Es obligatorio mantener actualizado el archivo README.md de la raíz, reflejando el estado actual del proyecto, cómo ejecutarlo y su arquitectura a medida que evolucione.
+
 
 ## 2. Límites Operativos del Sistema (Restricciones Git y Entorno)
 - **Commits:** Tienes permitido realizar commits locales de forma incremental para asegurar la trazabilidad de tus cambios.

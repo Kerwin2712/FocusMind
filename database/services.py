@@ -1,7 +1,7 @@
 import json
 from sqlalchemy.orm import Session as SqlalchemySession
 from database.connection import Session
-from database.models import Usuario, Habito, EstadoEntorno
+from database.models import Usuario, Habito, EstadoEntorno, HistorialDopamina
 
 # Hábitos Freemium por defecto
 DEFAULT_HABITS = [
@@ -209,3 +209,29 @@ def get_dopamina_y_progreso(user_id: int) -> dict:
         return {"dopamina": 100, "progreso_pct": 0, "progreso_val": 0.0, "estados": {}}
     finally:
         session.close()
+
+
+def save_focus_session(user_id: int, energia_pre: int, motivacion_pre: int, energia_post: int, motivacion_post: int, completado: bool) -> bool:
+    """Registra una sesión de enfoque en el historial de dopamina."""
+    session = Session()
+    try:
+        # Registrar sesión de enfoque
+        nuevo_registro = HistorialDopamina(
+            user_id=user_id,
+            energia_pre=energia_pre,
+            motivacion_pre=motivacion_pre,
+            energia_post=energia_post,
+            motivacion_post=motivacion_post,
+            bloques_completados=1 if completado else 0
+        )
+        session.add(nuevo_registro)
+        session.commit()
+        print(f"[Database] Sesión de enfoque guardada con éxito (Completada={completado}).")
+        return True
+    except Exception as e:
+        session.rollback()
+        print(f"[Database ERROR] Error al guardar sesión de enfoque: {e}")
+        return False
+    finally:
+        session.close()
+

@@ -100,6 +100,16 @@ La aplicación implementa un patrón completamente desacoplado (MVVM/MVC adaptat
 
 ---
 
+## ⏱️ Arquitectura del Temporizador y Clock (Fase 4)
+El temporizador de enfoque utiliza una arquitectura reactiva no bloqueante basada en el planificador nativo de Kivy:
+
+1.  **Hilos de Interfaz No Bloqueantes:** El uso de bucles de retardo tradicionales (`time.sleep`) congelaría la UI del dispositivo móvil. En su lugar, el sistema hace uso de `kivy.clock.Clock` mediante `Clock.schedule_interval(self.update_timer, 1)` para decrementar de forma segura la cuenta atrás en intervalos precisos de 1 segundo sobre el hilo principal.
+2.  **Modales de Telemetría Cognitiva (`EvaluationPopup`):** Al presionar "Iniciar", se suspende el conteo y se presenta un modal para calificar el nivel de **Energía** y **Motivación** iniciales (Pre). Al completarse (conteo llega a cero) o al detenerse manualmente, se abre un segundo modal para calificar el estado final (Post).
+3.  **Persistencia Transaccional del Historial:** Los resultados se persisten en la tabla `Historial_Dopamina` marcando la sesión como completada con éxito o interrumpida manualmente, permitiendo el posterior análisis estadístico de neuroproductividad.
+
+---
+
+
 
 ## 🔒 Directrices de Seguridad para Google Play Store
 FocusMind incorpora medidas críticas para cumplir con las políticas de distribución de Google Play:

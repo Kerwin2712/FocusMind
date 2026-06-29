@@ -497,7 +497,7 @@
                     halign: 'center'
                 
                 Label:
-                    text: "25:00"
+                    text: root.timer_text
                     font_size: '64sp'
                     bold: True
                     color: 0.95, 0.96, 0.96, 1
@@ -521,6 +521,7 @@
                     background_color: 0, 0, 0, 0
                     color: 1, 1, 1, 1
                     bold: True
+                    on_release: root.start_timer()
                     canvas.before:
                         Color:
                             rgba: 0.06, 0.72, 0.51, 1 # Verde
@@ -534,6 +535,7 @@
                     background_color: 0, 0, 0, 0
                     color: 1, 1, 1, 1
                     bold: True
+                    on_release: root.pause_timer()
                     canvas.before:
                         Color:
                             rgba: 0.55, 0.36, 0.96, 1 # Morado
@@ -547,6 +549,7 @@
                     background_color: 0, 0, 0, 0
                     color: 1, 1, 1, 1
                     bold: True
+                    on_release: root.stop_timer()
                     canvas.before:
                         Color:
                             rgba: 0.94, 0.27, 0.27, 1 # Rojo
@@ -554,6 +557,7 @@
                             pos: self.pos
                             size: self.size
                             radius: [10]
+
 
             # Espaciador
             Widget:

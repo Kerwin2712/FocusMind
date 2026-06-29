@@ -46,6 +46,13 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Modificado `ui/dashboard_screen.py` para consultar dinámicamente los hábitos completados y calcular el progreso diario (0%, 33%, 66%, 100%) y los puntos de dopamina (DP).
   - Actualizado `ui/main.kv` vinculando dinámicamente los labels, checkboxes, el estado descriptivo de la habitación virtual y el ancho de la barra de progreso a propiedades de Python.
   - Actualizado el `README.md` detallando el nuevo flujo de datos desacoplado de la aplicación.
+- **Fase 4 - Temporizador de Enfoque y Métricas Analíticas:**
+  - Creada la lógica del temporizador regresivo de 25 minutos en `ui/focus_screen.py` utilizando el planificador nativo no bloqueante `kivy.clock.Clock`.
+  - Implementado el modal interactivo de autoevaluación `EvaluationPopup` en Python con sliders (1-5) para recolectar métricas cognitivas pre y post-sesión.
+  - Creada la función `save_focus_session` en `database/services.py` para persistir los registros y evaluar si la sesión fue completada con éxito o interrumpida en la tabla `Historial_Dopamina`.
+  - Vinculados los botones e indicadores del temporizador en `ui/main.kv` con las funciones correspondientes de Kivy (`root.timer_text`, `root.start_timer()`, etc.).
+  - Actualizado `README.md` detallando el diseño de hilos no bloqueantes del temporizador.
+
 
 
 

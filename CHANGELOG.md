@@ -61,6 +61,9 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Creadas representaciones geométricas dinámicas en el Canvas de Kivy (`ui/main.kv` y `ui/dashboard_screen.py`) para renderizar condicionalmente el estado de la cama, los libros y la ropa según los hábitos diarios del usuario.
   - Creado `ui/custom_widgets.py` definiendo en Python las clases de widgets personalizados (`FMButton`, `FMCheckBox`) para declarar de forma explícita y tipada propiedades como `bg_color` y evitar fallos del compilador KV.
   - Corregido error `TypeError: 'NoneType' object is not iterable` al inicializar las propiedades dinámicas de Kivy durante la carga del Canvas en `ui/main.kv`, añadiendo validaciones condicionales a nivel de lista en la expresión KV y registrando los widgets en la `Factory` antes de cargar el archivo `.kv`.
+  - Removido el archivo SQLite `focusmind.db` del control de versiones de Git (`git rm --cached`), garantizando que se respete la regla de `.gitignore` para no subir datos locales al repositorio remoto.
+  - Rediseñado completamente `WelcomeScreen` en `ui/main.kv` incorporando efectos Glow difusos morado/verde en canvas, un logo animado/geométrico orbital simulando dopamina y textos explicativos de neuroproductividad.
+
 
 
 

@@ -194,18 +194,63 @@
     name: 'welcome'
     canvas.before:
         Color:
-            rgba: 0.07, 0.07, 0.08, 1 # #121214
+            rgba: 0.07, 0.07, 0.08, 1 # #121214 Fondo oscuro principal
         Rectangle:
             pos: self.pos
             size: self.size
+        # Efecto Glow morado difuso en el fondo
+        Color:
+            rgba: 0.55, 0.36, 0.96, 0.06
+        Ellipse:
+            pos: (self.center_x - 150, self.center_y - 50)
+            size: (300, 300)
+        # Efecto Glow verde esmeralda difuso
+        Color:
+            rgba: 0.06, 0.72, 0.51, 0.04
+        Ellipse:
+            pos: (self.center_x - 220, self.center_y - 220)
+            size: (240, 240)
 
     BoxLayout:
         orientation: 'vertical'
-        padding: [30, 60, 30, 60]
-        spacing: 25
+        padding: [30, 50, 30, 40]
+        spacing: 28
 
         Widget:
-            size_hint_y: 0.2
+            size_hint_y: 0.1
+
+        # Logo de Dopamina Orbital Geométrico en Canvas
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            height: '130dp'
+            Widget:
+                size_hint_y: 1
+                canvas:
+                    # Órbita externa
+                    Color:
+                        rgba: 0.55, 0.36, 0.96, 0.15
+                    Line:
+                        circle: (self.center_x, self.center_y, 45)
+                        width: 3.5
+                    # Cerebro/Núcleo central
+                    Color:
+                        rgba: 0.55, 0.36, 0.96, 1
+                    Ellipse:
+                        pos: (self.center_x - 20, self.center_y - 20)
+                        size: (40, 40)
+                    # Satélite de dopamina activo
+                    Color:
+                        rgba: 0.06, 0.72, 0.51, 1
+                    Ellipse:
+                        pos: (self.center_x + 28, self.center_y + 18)
+                        size: (12, 12)
+                    # Enlace de órbita
+                    Color:
+                        rgba: 0.06, 0.72, 0.51, 0.25
+                    Line:
+                        points: [self.center_x, self.center_y, self.center_x + 34, self.center_y + 24]
+                        width: 1.5
 
         BoxLayout:
             orientation: 'vertical'
@@ -215,29 +260,44 @@
 
             Label:
                 text: "FocusMind"
-                font_size: '38sp'
+                font_size: '42sp'
                 bold: True
                 color: 0.95, 0.96, 0.96, 1
                 halign: 'center'
 
             Label:
-                text: "Neuroproductividad y Hábitos Gamificados"
-                font_size: '15sp'
-                color: 0.55, 0.36, 0.96, 1 # Morado
+                text: "NEUROPRODUCTIVIDAD GAMIFICADA"
+                font_size: '11sp'
+                bold: True
+                color: 0.55, 0.36, 0.96, 1
                 halign: 'center'
 
+            Label:
+                text: "Completa tus hábitos diarios y observa cómo se ordena\ny evoluciona tu entorno virtual."
+                font_size: '14sp'
+                color: 0.7, 0.7, 0.8, 1
+                halign: 'center'
+                size_hint_y: None
+                height: '40dp'
+
         Widget:
-            size_hint_y: 0.3
+            size_hint_y: 0.15
 
         FMPrimaryButton:
-            text: "Ingresar al Sistema"
+            text: "Comenzar"
             size_hint: (None, None)
             size: (260, 52)
             pos_hint: {'center_x': 0.5}
             on_release: root.manager.current = 'dashboard'
 
-        Widget:
-            size_hint_y: 0.1
+        Label:
+            text: "Modo Local Premium Activo"
+            font_size: '11sp'
+            color: 0.5, 0.5, 0.6, 0.6
+            halign: 'center'
+            size_hint_y: None
+            height: '20dp'
+
 
 
 # ----------------------------------------------------

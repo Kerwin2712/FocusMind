@@ -39,5 +39,7 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Actualizado `ui/__init__.py` para exportar las 4 pantallas del módulo.
   - Modificado `main.py` para registrar las pantallas en el `ScreenManager`.
   - Rediseñado completamente `ui/main.kv` agregando estilos detallados, el widget de barra de navegación reutilizable `NavBar` y botones de transición del flujo.
+  - Corregido bug `AttributeError: 'NoneType' object has no attribute 'current'` al inicializar `app.root` en `ui/main.kv`, añadiendo validaciones condicionales robustas (`app.root and ...`).
+
 
 

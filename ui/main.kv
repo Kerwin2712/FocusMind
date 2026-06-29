@@ -31,7 +31,7 @@
         on_release: app.root.current = 'dashboard'
         canvas.before:
             Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'dashboard' else (0, 0, 0, 0)
+                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'dashboard') else (0, 0, 0, 0)
             RoundedRectangle:
                 pos: self.pos
                 size: self.size
@@ -46,7 +46,7 @@
         on_release: app.root.current = 'habits'
         canvas.before:
             Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'habits' else (0, 0, 0, 0)
+                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'habits') else (0, 0, 0, 0)
             RoundedRectangle:
                 pos: self.pos
                 size: self.size
@@ -61,11 +61,12 @@
         on_release: app.root.current = 'focus'
         canvas.before:
             Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if app.root.current == 'focus' else (0, 0, 0, 0)
+                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'focus') else (0, 0, 0, 0)
             RoundedRectangle:
                 pos: self.pos
                 size: self.size
                 radius: [8]
+
 
 
 # ----------------------------------------------------

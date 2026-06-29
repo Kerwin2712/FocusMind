@@ -59,6 +59,9 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Estilizados los sliders de Kivy redefiniendo su canvas a una barra delgada y un thumb circular premium blanco con halo morado.
   - Estilizado el popup `EvaluationPopup` eliminando el fondo de borde tosco y la línea divisoria del título nativa.
   - Creadas representaciones geométricas dinámicas en el Canvas de Kivy (`ui/main.kv` y `ui/dashboard_screen.py`) para renderizar condicionalmente el estado de la cama, los libros y la ropa según los hábitos diarios del usuario.
+  - Creado `ui/custom_widgets.py` definiendo en Python las clases de widgets personalizados (`FMButton`, `FMCheckBox`) para declarar de forma explícita y tipada propiedades como `bg_color` y evitar fallos del compilador KV.
+  - Corregido error `TypeError: 'NoneType' object is not iterable` al inicializar las propiedades dinámicas de Kivy durante la carga del Canvas en `ui/main.kv`, añadiendo validaciones condicionales a nivel de lista en la expresión KV y registrando los widgets en la `Factory` antes de cargar el archivo `.kv`.
+
 
 
 

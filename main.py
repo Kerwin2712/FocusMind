@@ -3,8 +3,12 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+# Registrar widgets personalizados en Python antes de que Kivy lea el archivo KV
+from ui.custom_widgets import FMButton, FMCheckBox
+
 # Cargar el archivo de diseño KV de manera explícita
 Builder.load_file(os.path.join(os.path.dirname(__file__), 'ui', 'main.kv'))
+
 
 
 # Importar pantallas del módulo ui

@@ -39,22 +39,21 @@
 # ----------------------------------------------------
 # WIDGETS PERSONALIZADOS BASE
 # ----------------------------------------------------
-<FMButton@ButtonBehavior+Label>:
+<FMButton>:
     background_color: 0, 0, 0, 0
     font_size: '15sp'
     bold: True
     color: 0.95, 0.96, 0.96, 1
-    bg_color: [0.11, 0.11, 0.18, 1] # #1D1D2F por defecto
-    radius: [12]
     size_hint_y: None
     height: '48dp'
     canvas.before:
         Color:
-            rgba: self.bg_color if self.state == 'normal' else [self.bg_color[0]*0.8, self.bg_color[1]*0.8, self.bg_color[2]*0.8, 1]
+            rgba: self.bg_color if self.state == 'normal' else ([self.bg_color[0]*0.8, self.bg_color[1]*0.8, self.bg_color[2]*0.8, 1] if (self.bg_color and len(self.bg_color) >= 3) else [0, 0, 0, 0])
         RoundedRectangle:
             pos: self.pos
             size: self.size
             radius: self.radius
+
 
 <FMPrimaryButton@FMButton>:
     bg_color: [0.55, 0.36, 0.96, 1] # #8B5CF6 Morado
@@ -72,7 +71,7 @@
 # ----------------------------------------------------
 # CHECKBOX PERSONALIZADO ESTILIZADO (Para hábitos)
 # ----------------------------------------------------
-<FMCheckBox@ButtonBehavior+BoxLayout>:
+<FMCheckBox>:
     orientation: 'horizontal'
     size_hint_y: None
     height: '60dp'

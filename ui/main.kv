@@ -1,0 +1,73 @@
+# Diseño base para FocusMind
+# Define la transición y las pantallas disponibles en la aplicación
+
+<WelcomeScreen>:
+    name: 'welcome'
+    
+    # Lienzo para el fondo oscuro principal
+    canvas.before:
+        Color:
+            rgba: 0.07, 0.07, 0.08, 1 # #121214 Gris oscuro profundo
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [20, 50, 20, 50]
+        spacing: 20
+
+        # Espaciador superior para centrar el contenido
+        Widget:
+            size_hint_y: 0.2
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 10
+            size_hint_y: None
+            height: self.minimum_height
+
+            Label:
+                text: "FocusMind"
+                font_size: '32sp'
+                bold: True
+                color: 0.95, 0.96, 0.96, 1 # #F3F4F6 Texto principal
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'center'
+                valign: 'middle'
+
+            Label:
+                text: "Neuroproductividad y Hábitos Gamificados"
+                font_size: '16sp'
+                color: 0.55, 0.36, 0.96, 1 # #8B5CF6 Acento Morado
+                size_hint_y: None
+                height: self.texture_size[1]
+                halign: 'center'
+                valign: 'middle'
+
+        # Espaciador central
+        Widget:
+            size_hint_y: 0.3
+
+        Button:
+            text: "Iniciar Sesión"
+            size_hint: (None, None)
+            size: (240, 50)
+            pos_hint: {'center_x': 0.5}
+            background_color: 0, 0, 0, 0 # Transparente para usar el canvas
+            color: 1, 1, 1, 1
+            font_size: '16sp'
+            bold: True
+            
+            canvas.before:
+                Color:
+                    rgba: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado vibrante
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [12]
+
+        # Espaciador inferior
+        Widget:
+            size_hint_y: 0.1

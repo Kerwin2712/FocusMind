@@ -1,5 +1,5 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import StringProperty, NumericProperty
+from kivy.properties import StringProperty, NumericProperty, BooleanProperty
 from database.services import get_dopamina_y_progreso
 
 
@@ -11,6 +11,11 @@ class DashboardScreen(Screen):
     progreso_text = StringProperty("Progreso diario: 0%")
     progreso_value = NumericProperty(0.0)
     habitacion_status_text = StringProperty("")
+    
+    # Propiedades booleanas para el renderizado interactivo del entorno
+    cama_ordenada = BooleanProperty(False)
+    libros_ordenados = BooleanProperty(False)
+    ropa_ordenada = BooleanProperty(False)
 
     def on_enter(self):
         """Se ejecuta automáticamente al navegar al Dashboard."""
@@ -30,11 +35,12 @@ class DashboardScreen(Screen):
         libros = estados.get("libros", "Libros desordenados")
         ropa = estados.get("ropa", "Silla con ropa")
         
-        # Renderizado condicional en formato texto explicativo del estado del entorno
+        # Actualizar booleanos de renderizado condicional en la UI
+        self.cama_ordenada = (cama == "Ordenada")
+        self.libros_ordenados = (libros == "Libros ordenados")
+        self.ropa_ordenada = (ropa == "Silla despejada")
+        
+        # Texto descriptivo para accesibilidad
         self.habitacion_status_text = (
-            "[ Espacio de Render del Entorno ]\n\n"
-            "El estado de la habitación refleja tus hábitos de hoy:\n"
-            f"- Cama: {cama}\n"
-            f"- Estantería: {libros}\n"
-            f"- Ropa: {ropa}"
+            f"Cama: {cama}  |  Estante: {libros}  |  Ropa: {ropa}"
         )

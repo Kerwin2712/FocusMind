@@ -18,9 +18,17 @@ class EvaluationPopup(Popup):
     def __init__(self, title_text, on_confirm_callback, **kwargs):
         super().__init__(**kwargs)
         self.title = title_text
-        self.size_hint = (0.85, 0.55)
+        self.size_hint = (0.85, 0.5)
+        
+        # Eliminar bordes, texturas nativas y estilizar cabecera
+        self.background = ""
         self.background_color = [0.11, 0.11, 0.18, 1]  # #1D1D2F
+        self.separator_height = 0  # Remover la línea del título
+        self.title_align = 'center'
+        self.title_size = '16sp'
+        self.title_color = [0.95, 0.96, 0.96, 1]
         self.auto_dismiss = False
+
         
         self.on_confirm = on_confirm_callback
         

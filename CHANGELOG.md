@@ -52,6 +52,14 @@ Este archivo registra de manera cronológica y detallada todas las modificacione
   - Creada la función `save_focus_session` en `database/services.py` para persistir los registros y evaluar si la sesión fue completada con éxito o interrumpida en la tabla `Historial_Dopamina`.
   - Vinculados los botones e indicadores del temporizador en `ui/main.kv` con las funciones correspondientes de Kivy (`root.timer_text`, `root.start_timer()`, etc.).
   - Actualizado `README.md` detallando el diseño de hilos no bloqueantes del temporizador.
+- **Fase 2.5 - Refactorización Estética Completa:**
+  - Rediseñados los botones del sistema creando los widgets `<FMButton>`, `<FMPrimaryButton>`, `<FMSuccessButton>` y `<FMDangerButton>` con esquinas redondeadas y oscurecimiento visual interactivo al ser presionados.
+  - Rediseñados los checkboxes de hábitos mediante `<FMCheckBox>`, simulando checks mediante canvas vectoriales, sombreado interactivo y estados activos verdes.
+  - Remodelada la "hoja de papel" en `HabitsScreen` con bordes pulidos y mayor espaciado.
+  - Estilizados los sliders de Kivy redefiniendo su canvas a una barra delgada y un thumb circular premium blanco con halo morado.
+  - Estilizado el popup `EvaluationPopup` eliminando el fondo de borde tosco y la línea divisoria del título nativa.
+  - Creadas representaciones geométricas dinámicas en el Canvas de Kivy (`ui/main.kv` y `ui/dashboard_screen.py`) para renderizar condicionalmente el estado de la cama, los libros y la ropa según los hábitos diarios del usuario.
+
 
 
 

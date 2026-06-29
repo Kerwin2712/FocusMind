@@ -1,5 +1,146 @@
-# Diseño principal y navegación de FocusMind
-# Define la interfaz base y los layouts de cada pantalla utilizando la paleta premium
+# Diseño principal y navegación estética de FocusMind
+# Define la paleta de colores premium y widgets completamente personalizados
+
+# ----------------------------------------------------
+# REGLA GLOBAL: ESTILIZACIÓN DE SLIDERS NATIVOS
+# ----------------------------------------------------
+<Slider>:
+    size_hint_y: None
+    height: '35dp'
+    canvas:
+        Clear
+        # Barra base del slider (delgada)
+        Color:
+            rgba: 0.2, 0.2, 0.3, 1
+        RoundedRectangle:
+            pos: (self.x, self.center_y - 2)
+            size: (self.width, 4)
+            radius: [2]
+        # Barra de progreso activa (morada)
+        Color:
+            rgba: 0.55, 0.36, 0.96, 1
+        RoundedRectangle:
+            pos: (self.x, self.center_y - 2)
+            size: (self.value_normalized * self.width, 4)
+            radius: [2]
+        # Thumb (círculo limpio y sombra sutil)
+        Color:
+            rgba: 0.55, 0.36, 0.96, 0.25
+        Ellipse:
+            pos: (self.x + self.value_normalized * self.width - 13, self.center_y - 13)
+            size: (26, 26)
+        Color:
+            rgba: 0.95, 0.96, 0.96, 1
+        Ellipse:
+            pos: (self.x + self.value_normalized * self.width - 9, self.center_y - 9)
+            size: (18, 18)
+
+
+# ----------------------------------------------------
+# WIDGETS PERSONALIZADOS BASE
+# ----------------------------------------------------
+<FMButton@ButtonBehavior+Label>:
+    background_color: 0, 0, 0, 0
+    font_size: '15sp'
+    bold: True
+    color: 0.95, 0.96, 0.96, 1
+    bg_color: [0.11, 0.11, 0.18, 1] # #1D1D2F por defecto
+    radius: [12]
+    size_hint_y: None
+    height: '48dp'
+    canvas.before:
+        Color:
+            rgba: self.bg_color if self.state == 'normal' else [self.bg_color[0]*0.8, self.bg_color[1]*0.8, self.bg_color[2]*0.8, 1]
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: self.radius
+
+<FMPrimaryButton@FMButton>:
+    bg_color: [0.55, 0.36, 0.96, 1] # #8B5CF6 Morado
+    color: [1, 1, 1, 1]
+
+<FMSuccessButton@FMButton>:
+    bg_color: [0.06, 0.72, 0.51, 1] # #10B981 Verde
+    color: [1, 1, 1, 1]
+
+<FMDangerButton@FMButton>:
+    bg_color: [0.94, 0.27, 0.27, 1] # #EF4444 Rojo
+    color: [1, 1, 1, 1]
+
+
+# ----------------------------------------------------
+# CHECKBOX PERSONALIZADO ESTILIZADO (Para hábitos)
+# ----------------------------------------------------
+<FMCheckBox@ButtonBehavior+BoxLayout>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: '60dp'
+    padding: [15, 8, 15, 8]
+    spacing: 15
+    active: False
+    text: ""
+    subtext: ""
+    canvas.before:
+        Color:
+            # Color de fondo de la tarjeta del hábito
+            rgba: [0.98, 0.98, 0.95, 1] if self.state == 'normal' else [0.94, 0.94, 0.90, 1]
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [12]
+        Color:
+            # Línea divisoria izquierda decorativa
+            rgba: [0.55, 0.36, 0.96, 0.7] if self.active else [0.8, 0.8, 0.8, 0.3]
+        Line:
+            points: [self.x + 4, self.y + 12, self.x + 4, self.y + self.height - 12]
+            width: 2.5
+
+    # Dibujo del check circular interactivo
+    Widget:
+        size_hint_x: None
+        width: '32dp'
+        canvas.before:
+            Color:
+                # Color del círculo activo
+                rgba: [0.06, 0.72, 0.51, 1] if root.active else [0.75, 0.75, 0.75, 1]
+            Line:
+                circle: (self.center_x, self.center_y, 11)
+                width: 1.8
+            Color:
+                # Relleno del círculo si está activo
+                rgba: [0.06, 0.72, 0.51, 0.12] if root.active else [0, 0, 0, 0]
+            Ellipse:
+                pos: (self.center_x - 11, self.center_y - 11)
+                size: (22, 22)
+            Color:
+                # Símbolo check
+                rgba: [0.06, 0.72, 0.51, 1] if root.active else [0, 0, 0, 0]
+            Line:
+                # Dibujo del símbolo 'V' de verificado
+                points: [self.center_x - 6, self.center_y - 1, self.center_x - 2, self.center_y - 5, self.center_x + 6, self.center_y + 4]
+                width: 2.2
+
+    # Textos informativos
+    BoxLayout:
+        orientation: 'vertical'
+        padding: [0, 2, 0, 2]
+        Label:
+            text: root.text
+            font_size: '15sp'
+            bold: True
+            color: [0.12, 0.12, 0.18, 1] # Gris oscuro azulado para papel
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+        Label:
+            text: root.subtext
+            font_size: '11sp'
+            color: [0.45, 0.45, 0.5, 1]
+            halign: 'left'
+            valign: 'middle'
+            text_size: self.size
+
 
 # ----------------------------------------------------
 # WIDGET REUTILIZABLE: BARRA DE NAVEGACIÓN INFERIOR
@@ -7,66 +148,44 @@
 <NavBar@BoxLayout>:
     orientation: 'horizontal'
     size_hint_y: None
-    height: '60dp'
-    padding: [10, 5, 10, 5]
-    spacing: 15
+    height: '65dp'
+    padding: [12, 6, 12, 6]
+    spacing: 12
     canvas.before:
         Color:
-            rgba: 0.11, 0.11, 0.18, 1 # #1D1D2F Gris Azulado Oscuro
+            rgba: 0.11, 0.11, 0.18, 1 # #1D1D2F
         Rectangle:
             pos: self.pos
             size: self.size
         Color:
-            rgba: 0.2, 0.2, 0.3, 0.5 # Línea divisoria superior
+            rgba: 0.2, 0.2, 0.3, 0.4 # Línea divisoria superior
         Line:
             points: [self.x, self.y + self.height, self.x + self.width, self.y + self.height]
             width: 1
 
-    Button:
+    FMButton:
         text: "Entorno"
-        background_color: 0, 0, 0, 0
-        color: 0.95, 0.96, 0.96, 1
-        font_size: '14sp'
-        bold: True
+        font_size: '13sp'
+        bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'dashboard') else [0.11, 0.11, 0.18, 0]
+        color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'dashboard') else [0.7, 0.7, 0.8, 1]
         on_release: app.root.current = 'dashboard'
-        canvas.before:
-            Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'dashboard') else (0, 0, 0, 0)
-            RoundedRectangle:
-                pos: self.pos
-                size: self.size
-                radius: [8]
+        radius: [8]
 
-    Button:
+    FMButton:
         text: "Hábitos"
-        background_color: 0, 0, 0, 0
-        color: 0.95, 0.96, 0.96, 1
-        font_size: '14sp'
-        bold: True
+        font_size: '13sp'
+        bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'habits') else [0.11, 0.11, 0.18, 0]
+        color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'habits') else [0.7, 0.7, 0.8, 1]
         on_release: app.root.current = 'habits'
-        canvas.before:
-            Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'habits') else (0, 0, 0, 0)
-            RoundedRectangle:
-                pos: self.pos
-                size: self.size
-                radius: [8]
+        radius: [8]
 
-    Button:
+    FMButton:
         text: "Enfoque"
-        background_color: 0, 0, 0, 0
-        color: 0.95, 0.96, 0.96, 1
-        font_size: '14sp'
-        bold: True
+        font_size: '13sp'
+        bg_color: [0.55, 0.36, 0.96, 0.2] if (app.root and app.root.current == 'focus') else [0.11, 0.11, 0.18, 0]
+        color: [0.55, 0.36, 0.96, 1] if (app.root and app.root.current == 'focus') else [0.7, 0.7, 0.8, 1]
         on_release: app.root.current = 'focus'
-        canvas.before:
-            Color:
-                rgba: (0.55, 0.36, 0.96, 0.2) if (app.root and app.root.current == 'focus') else (0, 0, 0, 0)
-            RoundedRectangle:
-                pos: self.pos
-                size: self.size
-                radius: [8]
-
+        radius: [8]
 
 
 # ----------------------------------------------------
@@ -76,7 +195,7 @@
     name: 'welcome'
     canvas.before:
         Color:
-            rgba: 0.07, 0.07, 0.08, 1 # #121214 Fondo oscuro principal
+            rgba: 0.07, 0.07, 0.08, 1 # #121214
         Rectangle:
             pos: self.pos
             size: self.size
@@ -97,39 +216,26 @@
 
             Label:
                 text: "FocusMind"
-                font_size: '36sp'
+                font_size: '38sp'
                 bold: True
-                color: 0.95, 0.96, 0.96, 1 # #F3F4F6
+                color: 0.95, 0.96, 0.96, 1
                 halign: 'center'
-                valign: 'middle'
 
             Label:
                 text: "Neuroproductividad y Hábitos Gamificados"
                 font_size: '15sp'
-                color: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado Acento
+                color: 0.55, 0.36, 0.96, 1 # Morado
                 halign: 'center'
-                valign: 'middle'
 
         Widget:
             size_hint_y: 0.3
 
-        Button:
+        FMPrimaryButton:
             text: "Ingresar al Sistema"
             size_hint: (None, None)
             size: (260, 52)
             pos_hint: {'center_x': 0.5}
-            background_color: 0, 0, 0, 0
-            color: 1, 1, 1, 1
-            font_size: '16sp'
-            bold: True
             on_release: root.manager.current = 'dashboard'
-            canvas.before:
-                Color:
-                    rgba: 0.55, 0.36, 0.96, 1 # #8B5CF6 Morado
-                RoundedRectangle:
-                    pos: self.pos
-                    size: self.size
-                    radius: [14]
 
         Widget:
             size_hint_y: 0.1
@@ -154,56 +260,48 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: '70dp'
+            height: '75dp'
             padding: [20, 10, 20, 10]
-            spacing: 10
+            spacing: 15
             canvas.before:
                 Color:
-                    rgba: 0.11, 0.11, 0.18, 1 # #1D1D2F
+                    rgba: 0.11, 0.11, 0.18, 1
                 Rectangle:
                     pos: self.pos
                     size: self.size
 
             BoxLayout:
                 orientation: 'vertical'
-                size_hint_x: 0.6
+                size_hint_x: 0.65
                 Label:
                     text: "Nivel de Dopamina"
                     font_size: '12sp'
                     color: 0.6, 0.6, 0.7, 1
                     halign: 'left'
-                    size_hint_y: None
-                    height: '15dp'
+                    text_size: self.size
                 Label:
                     text: root.dopamina_text
-                    font_size: '20sp'
+                    font_size: '22sp'
                     bold: True
                     color: 0.55, 0.36, 0.96, 1
                     halign: 'left'
+                    text_size: self.size
 
-            # Botón para cerrar sesión/volver al inicio
-            Button:
+            # Botón estilizado para salir
+            FMDangerButton:
                 text: "Salir"
-                size_hint_x: 0.4
-                size_hint_y: None
-                height: '40dp'
-                background_color: 0, 0, 0, 0
-                color: 0.94, 0.27, 0.27, 1 # #EF4444 Rojo
-                bold: True
+                size_hint_x: 0.35
+                height: '42dp'
+                pos_hint: {'center_y': 0.5}
+                font_size: '13sp'
                 on_release: root.manager.current = 'welcome'
-                canvas.before:
-                    Color:
-                        rgba: 0.94, 0.27, 0.27, 0.1
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [8]
+                radius: [8]
 
         # Contenedor del Entorno Virtual (Habitación)
         BoxLayout:
             orientation: 'vertical'
-            padding: [20, 20, 20, 20]
-            spacing: 15
+            padding: [20, 15, 20, 15]
+            spacing: 12
 
             Label:
                 text: "Tu Habitación Virtual"
@@ -211,12 +309,15 @@
                 bold: True
                 color: 0.95, 0.96, 0.96, 1
                 size_hint_y: None
-                height: '30dp'
+                height: '25dp'
+                halign: 'left'
+                text_size: self.size
 
-            # Contenedor que emula el render de la habitación
+            # Contenedor de la representación gráfica del entorno
             BoxLayout:
                 orientation: 'vertical'
                 padding: [15, 15, 15, 15]
+                spacing: 15
                 canvas.before:
                     Color:
                         rgba: 0.11, 0.11, 0.18, 1 # Tarjeta
@@ -225,44 +326,135 @@
                         size: self.size
                         radius: [16]
                 
+                # Renderizador condicional geométrico del Canvas
+                BoxLayout:
+                    orientation: 'horizontal'
+                    spacing: 20
+                    size_hint_y: 0.75
+                    
+                    # 1. Representación Cama
+                    Widget:
+                        canvas:
+                            # Color base del colchón (gris opaco si desordenada, morado si ordenada)
+                            Color:
+                                rgba: [0.18, 0.18, 0.28, 1] if not root.cama_ordenada else [0.55, 0.36, 0.96, 1]
+                            RoundedRectangle:
+                                pos: self.pos
+                                size: self.size
+                                radius: [10]
+                            # Almohada
+                            Color:
+                                rgba: [0.25, 0.25, 0.35, 1] if not root.cama_ordenada else [0.95, 0.96, 0.96, 1]
+                            RoundedRectangle:
+                                pos: (self.x + 8, self.y + self.height - 30)
+                                size: (self.width - 16, 20)
+                                radius: [5]
+                            # Cobija (desordenada roja/ordenada verde)
+                            Color:
+                                rgba: [0.94, 0.27, 0.27, 0.75] if not root.cama_ordenada else [0.06, 0.72, 0.51, 1]
+                            RoundedRectangle:
+                                pos: (self.x + 8, self.y + 10) if root.cama_ordenada else (self.x + 12, self.y + 6)
+                                size: (self.width - 16, self.height // 2) if root.cama_ordenada else (self.width - 24, self.height // 2 - 8)
+                                radius: [4]
+
+                    # 2. Representación Estantería de Libros
+                    Widget:
+                        canvas:
+                            # Estante (mueble café)
+                            Color:
+                                rgba: 0.3, 0.22, 0.15, 1
+                            Line:
+                                rectangle: (self.x, self.y, self.width, self.height)
+                                width: 2
+                            # Libro 1 (desalineado gris / alineado verde)
+                            Color:
+                                rgba: [0.25, 0.25, 0.3, 1] if not root.libros_ordenados else [0.06, 0.72, 0.51, 1]
+                            RoundedRectangle:
+                                pos: (self.x + 12, self.y + 12) if root.libros_ordenados else (self.x + 8, self.y + 8)
+                                size: (12, self.height - 24)
+                                radius: [2]
+                            # Libro 2 (inclinado / recto morado)
+                            Color:
+                                rgba: [0.25, 0.25, 0.3, 1] if not root.libros_ordenados else [0.55, 0.36, 0.96, 1]
+                            RoundedRectangle:
+                                pos: (self.x + 28, self.y + 12) if root.libros_ordenados else (self.x + 22, self.y + 10)
+                                size: (12, self.height - 24)
+                                radius: [2]
+                            # Libro 3 (naranja)
+                            Color:
+                                rgba: [0.25, 0.25, 0.3, 1] if not root.libros_ordenados else [0.95, 0.6, 0.2, 1]
+                            RoundedRectangle:
+                                pos: (self.x + 44, self.y + 12) if root.libros_ordenados else (self.x + 34, self.y + 6)
+                                size: (12, self.height - 24)
+                                radius: [2]
+
+                    # 3. Representación Silla y Ropa
+                    Widget:
+                        canvas:
+                            # Patas de la silla
+                            Color:
+                                rgba: 0.35, 0.35, 0.4, 1
+                            Line:
+                                points: [self.x + 12, self.y + 8, self.x + 12, self.y + self.height - 15]
+                                width: 2.2
+                            Line:
+                                points: [self.x + self.width - 12, self.y + 8, self.x + self.width - 12, self.y + self.height - 15]
+                                width: 2.2
+                            # Asiento
+                            Color:
+                                rgba: 0.18, 0.18, 0.28, 1
+                            RoundedRectangle:
+                                pos: (self.x + 8, self.y + 25)
+                                size: (self.width - 16, 8)
+                                radius: [2.5]
+                            # Ropa amontonada (Rojo si desordenado, invisible/limpio si despejado)
+                            Color:
+                                rgba: [0.94, 0.27, 0.27, 0.8] if not root.ropa_ordenada else [0, 0, 0, 0]
+                            Ellipse:
+                                pos: (self.x + 14, self.y + 29)
+                                size: (self.width - 28, 22)
+
+                # Estado de texto para accesibilidad
                 Label:
                     text: root.habitacion_status_text
                     halign: 'center'
                     valign: 'middle'
-                    font_size: '14sp'
-                    color: 0.8, 0.8, 0.9, 1
-                    size_hint_y: 1
+                    font_size: '12sp'
+                    color: 0.7, 0.7, 0.8, 1
+                    size_hint_y: 0.25
+                    text_size: self.size
 
             # Barra de progreso de Dopamina diaria
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_y: None
-                height: '60dp'
-                spacing: 5
+                height: '55dp'
+                spacing: 6
                 
                 Label:
                     text: root.progreso_text
                     font_size: '12sp'
                     color: 0.8, 0.8, 0.9, 1
                     halign: 'left'
+                    text_size: self.size
                 
-                # Barra personalizada
+                # Barra de progreso customizada
                 Widget:
                     size_hint_y: None
-                    height: '10dp'
+                    height: '8dp'
                     canvas.before:
                         Color:
                             rgba: 0.2, 0.2, 0.3, 1
                         RoundedRectangle:
                             pos: self.pos
                             size: self.size
-                            radius: [5]
+                            radius: [4]
                         Color:
-                            rgba: 0.06, 0.72, 0.51, 1 # Verde éxito #10B981
+                            rgba: 0.06, 0.72, 0.51, 1 # Verde éxito
                         RoundedRectangle:
                             pos: self.pos
                             size: (self.size[0] * root.progreso_value, self.size[1])
-                            radius: [5]
+                            radius: [4]
 
         # Barra de navegación
         NavBar:
@@ -301,135 +493,49 @@
                 bold: True
                 color: 0.95, 0.96, 0.96, 1
                 halign: 'left'
+                text_size: self.size
 
-        # Lista estilo "hoja de papel" (estilizada sobre fondo premium)
+        # Lista de hábitos refinada sobre fondo oscuro
         BoxLayout:
             orientation: 'vertical'
             padding: [20, 20, 20, 20]
-            spacing: 15
+            spacing: 12
 
-            # Contenedor estilo "hoja de papel" (color crema suave para contraste)
+            # Contenedor de Hábitos (Crema estilo hoja de papel con esquinas pulidas)
             BoxLayout:
                 orientation: 'vertical'
-                padding: [20, 25, 20, 25]
-                spacing: 20
+                padding: [18, 20, 18, 20]
+                spacing: 12
                 canvas.before:
                     Color:
-                        rgba: 0.98, 0.98, 0.95, 1 # Crema tipo papel
+                        rgba: 0.94, 0.94, 0.92, 1 # Crema más sutil
                     RoundedRectangle:
                         pos: self.pos
                         size: self.size
-                        radius: [14]
+                        radius: [16]
 
-                # Ítem Hábito 1
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: '50dp'
-                    spacing: 15
-                    canvas.before:
-                        Color:
-                            rgba: 0.9, 0.9, 0.85, 1 # Línea divisoria en papel
-                        Line:
-                            points: [self.x, self.y, self.x + self.width, self.y]
-                            width: 1
-                    
-                    CheckBox:
-                        active: root.habito_cama_active
-                        on_active: root.on_habito_change("Tender la cama", self.active)
-                        size_hint_x: None
-                        width: '40dp'
-                        color: 0.55, 0.36, 0.96, 1 # Morado para checks
-                    
-                    BoxLayout:
-                        orientation: 'vertical'
-                        Label:
-                            text: "Tender la cama"
-                            font_size: '16sp'
-                            bold: True
-                            color: 0.1, 0.1, 0.15, 1
-                            halign: 'left'
-                            text_size: self.size
-                        Label:
-                            text: "Hábito matutino predefinido"
-                            font_size: '12sp'
-                            color: 0.4, 0.4, 0.5, 1
-                            halign: 'left'
-                            text_size: self.size
+                # Elemento 1: Cama
+                FMCheckBox:
+                    active: root.habito_cama_active
+                    text: "Tender la cama"
+                    subtext: "Hábito matutino predefinido"
+                    on_release: root.on_habito_change("Tender la cama", not self.active)
 
-                # Ítem Hábito 2
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: '50dp'
-                    spacing: 15
-                    canvas.before:
-                        Color:
-                            rgba: 0.9, 0.9, 0.85, 1
-                        Line:
-                            points: [self.x, self.y, self.x + self.width, self.y]
-                            width: 1
-                    
-                    CheckBox:
-                        active: root.habito_libro_active
-                        on_active: root.on_habito_change("Leer páginas de un libro", self.active)
-                        size_hint_x: None
-                        width: '40dp'
-                        color: 0.55, 0.36, 0.96, 1
-                    
-                    BoxLayout:
-                        orientation: 'vertical'
-                        Label:
-                            text: "Leer páginas de un libro"
-                            font_size: '16sp'
-                            bold: True
-                            color: 0.1, 0.1, 0.15, 1
-                            halign: 'left'
-                            text_size: self.size
-                        Label:
-                            text: "Mínimo 10 páginas diarias"
-                            font_size: '12sp'
-                            color: 0.4, 0.4, 0.5, 1
-                            halign: 'left'
-                            text_size: self.size
+                # Elemento 2: Libros
+                FMCheckBox:
+                    active: root.habito_libro_active
+                    text: "Leer páginas de un libro"
+                    subtext: "Mínimo 10 páginas diarias"
+                    on_release: root.on_habito_change("Leer páginas de un libro", not self.active)
 
-                # Ítem Hábito 3
-                BoxLayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: '50dp'
-                    spacing: 15
-                    canvas.before:
-                        Color:
-                            rgba: 0.9, 0.9, 0.85, 1
-                        Line:
-                            points: [self.x, self.y, self.x + self.width, self.y]
-                            width: 1
-                    
-                    CheckBox:
-                        active: root.habito_ropa_active
-                        on_active: root.on_habito_change("Ordenar la ropa", self.active)
-                        size_hint_x: None
-                        width: '40dp'
-                        color: 0.55, 0.36, 0.96, 1
-                    
-                    BoxLayout:
-                        orientation: 'vertical'
-                        Label:
-                            text: "Ordenar la ropa"
-                            font_size: '16sp'
-                            bold: True
-                            color: 0.1, 0.1, 0.15, 1
-                            halign: 'left'
-                            text_size: self.size
-                        Label:
-                            text: "Mantener el cuarto limpio"
-                            font_size: '12sp'
-                            color: 0.4, 0.4, 0.5, 1
-                            halign: 'left'
-                            text_size: self.size
+                # Elemento 3: Ropa
+                FMCheckBox:
+                    active: root.habito_ropa_active
+                    text: "Ordenar la ropa"
+                    subtext: "Mantener el cuarto limpio"
+                    on_release: root.on_habito_change("Ordenar la ropa", not self.active)
 
-                # Espaciador para empujar el contenido hacia arriba
+                # Espaciador
                 Widget:
 
         # Barra de navegación
@@ -469,18 +575,19 @@
                 bold: True
                 color: 0.95, 0.96, 0.96, 1
                 halign: 'left'
+                text_size: self.size
 
-        # Sección del Temporizador
+        # Temporizador
         BoxLayout:
             orientation: 'vertical'
-            padding: [20, 30, 20, 30]
-            spacing: 30
+            padding: [20, 25, 20, 25]
+            spacing: 25
 
-            # Tarjeta del Reloj Temporizador
+            # Tarjeta de enfoque central
             BoxLayout:
                 orientation: 'vertical'
-                padding: [20, 30, 20, 30]
-                spacing: 15
+                padding: [20, 25, 20, 25]
+                spacing: 12
                 canvas.before:
                     Color:
                         rgba: 0.11, 0.11, 0.18, 1
@@ -491,14 +598,14 @@
 
                 Label:
                     text: "TIEMPO RESTANTE"
-                    font_size: '13sp'
+                    font_size: '12sp'
                     bold: True
                     color: 0.6, 0.6, 0.7, 1
                     halign: 'center'
                 
                 Label:
                     text: root.timer_text
-                    font_size: '64sp'
+                    font_size: '68sp'
                     bold: True
                     color: 0.95, 0.96, 0.96, 1
                     halign: 'center'
@@ -509,57 +616,25 @@
                     color: 0.55, 0.36, 0.96, 1
                     halign: 'center'
 
-            # Controles de Temporización
+            # Controles de Temporización estilizados
             BoxLayout:
                 orientation: 'horizontal'
                 size_hint_y: None
-                height: '50dp'
-                spacing: 15
+                height: '48dp'
+                spacing: 12
 
-                Button:
+                FMSuccessButton:
                     text: "Iniciar"
-                    background_color: 0, 0, 0, 0
-                    color: 1, 1, 1, 1
-                    bold: True
                     on_release: root.start_timer()
-                    canvas.before:
-                        Color:
-                            rgba: 0.06, 0.72, 0.51, 1 # Verde
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10]
 
-                Button:
+                FMPrimaryButton:
                     text: "Pausar"
-                    background_color: 0, 0, 0, 0
-                    color: 1, 1, 1, 1
-                    bold: True
                     on_release: root.pause_timer()
-                    canvas.before:
-                        Color:
-                            rgba: 0.55, 0.36, 0.96, 1 # Morado
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10]
 
-                Button:
+                FMDangerButton:
                     text: "Detener"
-                    background_color: 0, 0, 0, 0
-                    color: 1, 1, 1, 1
-                    bold: True
                     on_release: root.stop_timer()
-                    canvas.before:
-                        Color:
-                            rgba: 0.94, 0.27, 0.27, 1 # Rojo
-                        RoundedRectangle:
-                            pos: self.pos
-                            size: self.size
-                            radius: [10]
 
-
-            # Espaciador
             Widget:
 
         # Barra de navegación
